@@ -1,3 +1,4 @@
+// took example code from https://srituhobby.com/ultrasonic-sensor-with-arduino-nano-how-does-work-ultrasonic-sensor/
 void setup() {
   pinMode(12, OUTPUT);//define arduino pin
   pinMode(13, INPUT);//define arduino pin
