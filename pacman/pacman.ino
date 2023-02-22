@@ -25,18 +25,27 @@ Adafruit_NeoPixel *pixels;
 
 int echoPin = 13;
 int triggerPin = 12;
-
 float duration;
 double distance;
+
+int reverseRight = 6;
+int forwardRight = 9;
+int reverseLeft = 10;
+int forwardLeft = 11;
+
+
 void setup() {
   pinMode(echoPin, INPUT);
   pinMode(triggerPin, OUTPUT);
-  // These lines are specifically to support the Adafruit Trinket 5V 16 MHz.
-  // Any other board, you can remove this part (but no harm leaving it):
+  pinMode(forwardLeft, OUTPUT);
+  pinMode(forwardRight, OUTPUT);
+  pinMode(reverseLeft, OUTPUT);
+  pinMode(reverseRight, OUTPUT);
+ 
 #if defined(__AVR_ATtiny85__) && (F_CPU == 16000000)
   clock_prescale_set(clock_div_1);
 #endif
-  // END of Trinket-specific code.
+
 
   pixels = new Adafruit_NeoPixel(numPixels, pin, pixelFormat);
 
@@ -60,20 +69,55 @@ void loop() {
   // Calculating the distance
   distance = duration * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
 
-  if(distance <= 35){
-    // pixels->Color() takes RGB values, from 0,0,0 up to 255,255,255
-    // Here we're using a moderately bright green color:
+  if(distance < 35){
+    
     pixels->setPixelColor(ll, pixels->Color(20,350, 0));
-     pixels->setPixelColor(lr, pixels->Color(20,350, 0));
-      pixels->setPixelColor(rr, pixels->Color(20,350, 0));
-       pixels->setPixelColor(rl, pixels->Color(20,350, 0));
-    pixels->show();   // Send the updated pixel colors to the hardware.
+    pixels->setPixelColor(lr, pixels->Color(20,350, 0));
+    pixels->setPixelColor(rr, pixels->Color(20,350, 0));
+    pixels->setPixelColor(rl, pixels->Color(20,350, 0));
+    pixels->show();  
+    stopVehicle();
   } else{
     pixels->setPixelColor(rl, pixels->Color(100, 255, 0));
-     pixels->setPixelColor(lr, pixels->Color(100,255, 0));
-      pixels->setPixelColor(ll, pixels->Color(100,255, 0));
-       pixels->setPixelColor(rr, pixels->Color(100,255, 0));
-    pixels->show();   // Send the updated pixel colors to the hardware.
+    pixels->setPixelColor(lr, pixels->Color(100,255, 0));
+    pixels->setPixelColor(ll, pixels->Color(100,255, 0));
+    pixels->setPixelColor(rr, pixels->Color(100,255, 0));
+    pixels->show();
+    moveForward();  
 
   }
+}
+
+void moveForward() {
+  analogWrite(forwardLeft, 220);
+  analogWrite(forwardRight, 220);
+  analogWrite(reverseLeft, LOW);
+  analogWrite(reverseRight, LOW);
+}
+void moveBackward() {
+  analogWrite(forwardLeft, LOW);
+  analogWrite(forwardRight, LOW);
+  analogWrite(reverseLeft, 225);
+  analogWrite(reverseRight, 220);
+}
+ 
+void turnRight() {
+  analogWrite(forwardLeft, LOW);
+  analogWrite(forwardRight, 190);
+  analogWrite(reverseLeft, LOW);
+  analogWrite(reverseRight, LOW);
+}
+ 
+void turnLeft() {
+  analogWrite(forwardLeft, 190);
+  analogWrite(forwardRight, LOW);
+  analogWrite(reverseLeft, LOW);
+  analogWrite(reverseRight, LOW);
+}
+ 
+void stopVehicle() {
+  analogWrite(forwardLeft, LOW);
+  analogWrite(forwardRight, LOW);
+  analogWrite(reverseLeft, LOW);
+  analogWrite(reverseRight, LOW);
 }
