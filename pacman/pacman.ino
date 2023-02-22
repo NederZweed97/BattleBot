@@ -6,18 +6,18 @@
 #endif
 
 // Which pin on the Arduino is connected to the NeoPixels?
-int pin         =  2; // On Trinket or Gemma, suggest changing this to 1
+int pin =  2; // On Trinket or Gemma, suggest changing this to 1
 
 // How many NeoPixels are attached to the Arduino?
 int numPixels   = 4; // Popular NeoPixel ring size
 
 // NeoPixel color format & data rate. See the strandtest example for
 // information on possible values.
-int pixelFormat = NEO_GRB + NEO_KHZ800;
+int pixelFormat = NEO_RGB + NEO_KHZ800;
 
 Adafruit_NeoPixel *pixels;
 
-#define DELAYVAL 500 // Time (in milliseconds) to pause between pixels
+
  byte ll = 0;
  byte lr = 1;
  byte rr = 2;
@@ -25,7 +25,7 @@ Adafruit_NeoPixel *pixels;
 
 int echoPin = 13;
 int triggerPin = 12;
-float duration;
+double duration;
 double distance;
 
 int reverseRight = 6;
@@ -69,19 +69,20 @@ void loop() {
   // Calculating the distance
   distance = duration * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
 
-  if(distance < 35){
+  if(distance < 35.5){
     
-    pixels->setPixelColor(ll, pixels->Color(20,350, 0));
-    pixels->setPixelColor(lr, pixels->Color(20,350, 0));
-    pixels->setPixelColor(rr, pixels->Color(20,350, 0));
-    pixels->setPixelColor(rl, pixels->Color(20,350, 0));
+    pixels->setPixelColor(ll, pixels->Color(350,20,0));
+    pixels->setPixelColor(lr, pixels->Color(350,20,0));
+    pixels->setPixelColor(rr, pixels->Color(350,20,0));
+    pixels->setPixelColor(rl, pixels->Color(350,20,0));
     pixels->show();  
     stopVehicle();
+    
   } else{
-    pixels->setPixelColor(rl, pixels->Color(100, 255, 0));
-    pixels->setPixelColor(lr, pixels->Color(100,255, 0));
-    pixels->setPixelColor(ll, pixels->Color(100,255, 0));
-    pixels->setPixelColor(rr, pixels->Color(100,255, 0));
+    pixels->setPixelColor(rl, pixels->Color(255,100,0));
+    pixels->setPixelColor(lr, pixels->Color(255,100,0));
+    pixels->setPixelColor(ll, pixels->Color(255,100,0));
+    pixels->setPixelColor(rr, pixels->Color(255,100,0));
     pixels->show();
     moveForward();  
 
@@ -89,7 +90,7 @@ void loop() {
 }
 
 void moveForward() {
-  analogWrite(forwardLeft, 220);
+  analogWrite(forwardLeft, 215);
   analogWrite(forwardRight, 220);
   analogWrite(reverseLeft, LOW);
   analogWrite(reverseRight, LOW);
@@ -97,7 +98,7 @@ void moveForward() {
 void moveBackward() {
   analogWrite(forwardLeft, LOW);
   analogWrite(forwardRight, LOW);
-  analogWrite(reverseLeft, 225);
+  analogWrite(reverseLeft, 215);
   analogWrite(reverseRight, 220);
 }
  
