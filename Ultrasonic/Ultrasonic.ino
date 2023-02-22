@@ -1,18 +1,18 @@
 void setup() {
-  pinMode(2, OUTPUT);//define arduino pin
-  pinMode(4, INPUT);//define arduino pin
+  pinMode(12, OUTPUT);//define arduino pin
+  pinMode(13, INPUT);//define arduino pin
   Serial.begin(9600);//enable serial monitor
 
 }
 void loop() {
   //pulse output
-  digitalWrite(2, LOW);
+  digitalWrite(12, LOW);
   delayMicroseconds(4);
-  digitalWrite(2, HIGH);
+  digitalWrite(12, HIGH);
   delayMicroseconds(10);
-  digitalWrite(2, LOW);
+  digitalWrite(12, LOW);
   
-  long t = pulseIn(4, HIGH);//input pulse and save it veriable
+  long t = pulseIn(13, HIGH);//input pulse and save it veriable
   
   long inches = t / 74 / 2; //time convert distance
   long cm = t / 29 / 2; //time convert distance
