@@ -1,2 +1,3 @@
-# BattleBot
-BattleBot re-sit 
+# Pacman voor BattleBot
+
+Doolhof met pacmamn thema
